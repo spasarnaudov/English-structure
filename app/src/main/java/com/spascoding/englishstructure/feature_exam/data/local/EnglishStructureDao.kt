@@ -35,8 +35,8 @@ interface EnglishStructureDao {
     /**
      * get sentence for exercise
      */
-    @Query("SELECT * FROM sentences WHERE tense=:tense AND topic=:topic ORDER BY usedCount ASC, mistakeCount DESC, RANDOM() LIMIT 1")
-    suspend fun getSentence(tense: Int, topic: String): Sentence
+    @Query("SELECT * FROM sentences ORDER BY usedCount ASC, mistakeCount DESC, RANDOM() LIMIT 1")
+    suspend fun getSentence(): Sentence
 
     // TENSE QUERIES
 
@@ -72,18 +72,14 @@ interface EnglishStructureDao {
     /**
      * Get all sentences for specific tens and topic
      */
-    @Query("SELECT * FROM sentences WHERE tense=:tens AND topic=:topic ORDER BY usedCount ASC, mistakeCount DESC")
-    fun getSentences(tens: Int, topic: String): Flow<List<Sentence>>
+    @Query("SELECT * FROM sentences WHERE usedCount > 0 ORDER BY userValueTime DESC")
+    fun getSentences(): Flow<List<Sentence>>
 
     @Query("SELECT DISTINCT topic FROM sentences WHERE tense=:tens")
     fun getTopics(tens: Int): Flow<List<String>>
 
-    @Query("SELECT * FROM sentences WHERE tense=:tens AND topic=:topic AND usedCount > 0 ORDER BY userValueTime DESC LIMIT :sentenceCount")
-    fun getRecentSentences(
-        tens: Int,
-        topic: String,
-        sentenceCount: Int
-    ): Flow<List<Sentence>>
+    @Query("SELECT * FROM sentences WHERE usedCount > 0 ORDER BY userValueTime DESC LIMIT :sentenceCount")
+    fun getRecentSentences(sentenceCount: Int): Flow<List<Sentence>>
 
     @Query(
         "SELECT topic," +

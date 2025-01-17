@@ -25,8 +25,8 @@ class DatabaseRepositoryImpl @Inject constructor(
         dao.updateSentence(sentence)
     }
 
-    override suspend fun getSentence(tense: Tense, topic: String): Sentence {
-        return dao.getSentence(tense.int, topic)
+    override suspend fun getSentence(): Sentence {
+        return dao.getSentence()
     }
 
     override fun getUserInfo(): Flow<UserInfo> {
@@ -45,8 +45,8 @@ class DatabaseRepositoryImpl @Inject constructor(
 
     // TOPICS
 
-    override fun getTopicSentences(tense: Tense, topic: String): Flow<List<Sentence>> {
-        return dao.getSentences(tense.int, topic)
+    override fun getTopicSentences(): Flow<List<Sentence>> {
+        return dao.getSentences()
     }
 
     override fun getTopics(tense: Tense): Flow<List<String>> {
@@ -54,7 +54,7 @@ class DatabaseRepositoryImpl @Inject constructor(
     }
 
     override fun getRecentSentences(tense: Tense, topic: String, sentenceCount: Int): Flow<List<Sentence>> {
-        return dao.getRecentSentences(tense.int, topic, sentenceCount)
+        return dao.getRecentSentences(sentenceCount)
     }
 
     override fun getTopicInfo(tense: Tense): Flow<List<TopicInfo>> {

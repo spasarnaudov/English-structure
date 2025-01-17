@@ -11,7 +11,7 @@
 	<!--	tense_screen	-->
 	<string name="app_version">version: %1$s</string>
 	<string name="tenses">Tenses</string>
-	<string name="app_description">App description</string>
+	<string name="about">About</string>
 
 	<!--	topic_screen	-->
 	<string name="back_to_tenses_list">Back to tenses list</string>

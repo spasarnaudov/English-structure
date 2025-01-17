@@ -10,8 +10,8 @@ class GetTopicSentencesUseCase @Inject constructor(
     private val repository: DatabaseRepositoryImpl
 ) {
 
-    operator fun invoke(tense: Tense, topic: String): Flow<List<Sentence>> {
-        return repository.getTopicSentences(tense, topic)
+    operator fun invoke(): Flow<List<Sentence>> {
+        return repository.getTopicSentences()
     }
 
 }

@@ -72,7 +72,7 @@ fun TenseScreen(
                     IconButton(onClick = { showDialog.value = true }) {
                         Icon(
                             imageVector = Icons.Filled.Info,
-                            contentDescription = stringResource(R.string.app_description)
+                            contentDescription = stringResource(R.string.about)
                         )
                     }
                 },
@@ -89,6 +89,7 @@ fun TenseScreen(
             item {
                 TopListItem(
                     stringResource(R.string.tenses),
+                    "",
                     sentenceCount = getUserInfoUseCase.sentenceCount,
                     accuracy = getUserInfoUseCase.accuracy,
                 )

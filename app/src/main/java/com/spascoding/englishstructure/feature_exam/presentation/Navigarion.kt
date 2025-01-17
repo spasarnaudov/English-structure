@@ -16,7 +16,7 @@ import com.spascoding.englishstructure.feature_exam.presentation.tense_screen.Te
 fun Navigation(
 ) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.TenseScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.ExamScreen.route) {
         composable(route = Screen.TenseScreen.route) {
             TenseScreen(navController)
         }
@@ -33,42 +33,12 @@ fun Navigation(
             TopicsScreen(navController)
         }
         composable(
-            route = Screen.TopicDetailScreen.route +
-                    "?tense={tense}&topic={topic}",
-            arguments = listOf(
-                navArgument(
-                    name = "topic"
-                ) {
-                    type = NavType.StringType
-                    defaultValue = ""
-                },
-                navArgument(
-                    name = "tense"
-                ) {
-                    type = NavType.IntType
-                    defaultValue = Tense.PRESENT_SIMPLE.int
-                },
-            )
+            route = Screen.TopicDetailScreen.route,
         ) {
             ExamDetails(navController)
         }
         composable(
-            route = Screen.ExamScreen.route +
-                    "?tense={tense}&topic={topic}",
-            arguments = listOf(
-                navArgument(
-                    name = "topic"
-                ) {
-                    type = NavType.StringType
-                    defaultValue = ""
-                },
-                navArgument(
-                    name = "tense"
-                ) {
-                    type = NavType.IntType
-                    defaultValue = Tense.PRESENT_SIMPLE.int
-                },
-            )
+            route = Screen.ExamScreen.route,
         ) {
             ExamScreen(navController)
         }

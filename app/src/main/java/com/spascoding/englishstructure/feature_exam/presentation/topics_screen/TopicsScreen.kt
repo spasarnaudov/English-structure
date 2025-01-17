@@ -74,6 +74,7 @@ fun TopicsScreen(
             item {
                 TopListItem(
                     stringResource(R.string.topics),
+                    "",
                     sentenceCount = tenseInfo.sentenceCount,
                     accuracy = tenseInfo.accuracy,
                 )

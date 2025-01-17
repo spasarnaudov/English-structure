@@ -17,7 +17,8 @@ import com.spascoding.englishstructure.core.constants.Padding
 
 @Composable
 fun TopListItem(
-    title: String,
+    tense: String,
+    topic: String,
     sentenceCount: Int,
     accuracy: Float,
 ) {
@@ -31,11 +32,10 @@ fun TopListItem(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = title,
-                fontSize = FontSize.EXTRA_LARGE,
+                text = tense,
                 fontWeight = FontWeight.Bold,
-                lineHeight = FontSize.EXTRA_LARGE,
             )
+            Text(text = topic)
             Text(text = stringResource(R.string.sentences_count, sentenceCount))
         }
         CircularProgressBar(

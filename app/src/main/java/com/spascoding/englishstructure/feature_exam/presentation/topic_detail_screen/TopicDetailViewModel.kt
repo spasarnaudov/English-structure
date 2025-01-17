@@ -17,22 +17,12 @@ class TopicDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(TopicDetailState())
-    val state: State<TopicDetailState> = _state
+//    private val _state = mutableStateOf(TopicDetailState())
+//    val state: State<TopicDetailState> = _state
 
-    init {
-        savedStateHandle.get<Int>("tense")?.also { tense ->
-            savedStateHandle.get<String>("topic")?.also { topic ->
-                _state.value = state.value.copy(
-                    tense = Tense.fromInt(tense),
-                    topic = topic,
-                )
-            }
-        }
-    }
 
     fun getSentences(): Flow<List<Sentence>> {
-        return topicsUseCases.getSentencesUseCase.invoke(state.value.tense, state.value.topic)
+        return topicsUseCases.getSentencesUseCase.invoke()
     }
 
 }

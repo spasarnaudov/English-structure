@@ -6,9 +6,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.spascoding.englishstructure.feature_exam.domain.enums.Tense
+import com.spascoding.englishstructure.feature_exam.domain.model.UserInfo
 import com.spascoding.englishstructure.feature_exam.domain.model.sentence.entity.Sentence
 import com.spascoding.englishstructure.feature_exam.domain.repository.ConfigRepository
 import com.spascoding.englishstructure.feature_exam.domain.use_case.CommonUseCases
+import com.spascoding.englishstructure.feature_exam.domain.use_case.TenseUseCases
 import com.spascoding.englishstructure.feature_exam.domain.use_case.TopicsUseCases
 import com.spascoding.englishstructure.feature_exam.presentation.utils.scratchWords
 import com.spascoding.englishstructure.feature_exam.presentation.utils.shuffleSentence
@@ -26,23 +28,15 @@ import javax.inject.Inject
 class ExamViewModel @Inject constructor(
     private val commonUseCases: CommonUseCases,
     private val topicsUseCases: TopicsUseCases,
-    private val savedStateHandle: SavedStateHandle,
     private val configRepository: ConfigRepository,
+    private val tenseUseCases: TenseUseCases,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ExamViewModelState())
     val state: State<ExamViewModelState> = _state
 
     init {
-        savedStateHandle.get<Int>("tense")?.also { tense ->
-            savedStateHandle.get<String>("topic")?.also { topic ->
-                _state.value = state.value.copy(
-                    tense = Tense.fromInt(tense),
-                    topic = topic
-                )
-                loadSentenceFromDatabase(state.value.tense, state.value.topic)
-            }
-        }
+        loadSentenceFromDatabase()
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -57,7 +51,7 @@ class ExamViewModel @Inject constructor(
             is ExamEvent.CheckExam -> {
                 val originSentence = state.value.sentence ?: return
                 GlobalScope.launch {
-                    loadSentenceFromDatabase(state.value.tense, state.value.topic)
+                    loadSentenceFromDatabase()
                     withContext(Dispatchers.IO) {
                         updateCurrentSentence(originSentence, event.answerText)
                     }
@@ -67,15 +61,17 @@ class ExamViewModel @Inject constructor(
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private fun loadSentenceFromDatabase(tense: Tense, topic: String) {
+    private fun loadSentenceFromDatabase() {
         GlobalScope.launch(Dispatchers.IO) {
-            val newSentence = commonUseCases.getSentenceUseCase.invoke(tense, topic)
+            val newSentence = commonUseCases.getSentenceUseCase.invoke()
             withContext(Dispatchers.Main) {
                 _state.value = state.value.copy(
                     sentence = newSentence,
                     originalSentence = newSentence.value,
                     shuffledSentence = newSentence.value.shuffleSentence(" / "),
                     userSentence = "",
+                    tense = Tense.fromInt(newSentence.tense),
+                    topic = newSentence.topic
                 )
             }
         }
@@ -112,6 +108,10 @@ class ExamViewModel @Inject constructor(
             state.value.topic,
             configRepository.getRecentSentenceCount()
         )
+    }
+
+    fun getUserInfoFlow(): Flow<UserInfo> {
+        return tenseUseCases.getUserInfoUseCase.invoke()
     }
 
 }

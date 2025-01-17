@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spascoding.englishstructure.R
+import com.spascoding.englishstructure.core.constants.Colors
 import com.spascoding.englishstructure.feature_exam.presentation.components.BorderedListElement
 import com.spascoding.englishstructure.feature_exam.presentation.components.SentenceInfoElement
 import com.spascoding.englishstructure.feature_exam.presentation.utils.upperFirstLetter
@@ -45,7 +46,7 @@ fun ExamDetails(
                     containerColor = Color.Transparent,
                     titleContentColor = MaterialTheme.colorScheme.onBackground,
                 ),
-                title = { Text("${viewModel.state.value.topic.upperFirstLetter()} (${viewModel.state.value.tense.value.upperFirstLetter()})") },
+                title = { /*Text("${viewModel.state.value.topic.upperFirstLetter()} (${viewModel.state.value.tense.value.upperFirstLetter()})")*/ },
                 scrollBehavior = scrollBehavior,
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
@@ -67,7 +68,7 @@ fun ExamDetails(
             items(sentences.count()) { i ->
                 val sentence = sentences[i]
                 BorderedListElement(
-                    borderColor = viewModel.state.value.tense.color
+                    borderColor = if (sentence.value == sentence.userValue) Colors.CORRECT_ANSWER else Colors.WRONG_ANSWER
                 ) {
                     SentenceInfoElement(sentence)
                 }

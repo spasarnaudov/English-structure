@@ -9,8 +9,8 @@ class GetSentenceUseCase @Inject constructor(
     private val repository: DatabaseRepositoryImpl
 ) {
 
-    suspend operator fun invoke(tense: Tense, topic: String): Sentence {
-        return repository.getSentence(tense, topic)
+    suspend operator fun invoke(): Sentence {
+        return repository.getSentence()
     }
 
 }
