@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.spascoding.englishstructure"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.spascoding.englishstructure"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 6
         val versionType = "-debug"
         versionName = "0.1.${versionCode}${versionType}"
